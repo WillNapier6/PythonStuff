@@ -2,7 +2,7 @@ import random
 import sys
 import os
 import time
-from tkinter import *
+from Tkinter import *
 import math
 
 class Point:
@@ -15,20 +15,14 @@ def findMidpoint(p1, p2):
     return Point((p1.x + p2.x)/2, (p1.y + p2.y)/2)
 
 
-def createTriangle(p1, p2, p3) :
-    canvas.create_line(p1.x, p1.y, p2.x, p2.y, width = 1)
-    canvas.create_line(p2.x, p2.y, p3.x, p3.y, width = 1)
-    canvas.create_line(p3.x, p3.y, p1.x, p1.y, width = 1)
-
-
-def createSierpinski(x, y, L, n) :
+def doSierpinski(x, y, L, n) :
     if n > 0 :
         time.sleep(.005)
-        createTriangle(Point(x,y), Point(x + L, y), Point(x + L/2, y + (L/2) * math.sqrt(3)))
+        canvas.create_polygon(x,y, x + L, y, x + L/2, y + (L/2) * math.sqrt(3), fill = "red" if n == 6 else "orange" if n==5 else "yellow" if n==4 else "green" if n==3 else "blue" if n==2 else "purple" if n==1 else "black")
         tk.update()
-        createSierpinski(x-L/4, y + (L/2) * math.sqrt(3)/2, L/2, n-1)
-        createSierpinski(x + L/4, y - (L/2) * math.sqrt(3)/2, L/2, n-1)
-        createSierpinski(x + (L - L/4), y + (L/2) * math.sqrt(3)/2, L/2, n-1)
+        doSierpinski(x - L / 4, y + (L / 2) * math.sqrt(3) / 2, L / 2, n - 1)
+        doSierpinski(x + L / 4, y - (L / 2) * math.sqrt(3) / 2, L / 2, n - 1)
+        doSierpinski(x + (L - L / 4), y + (L / 2) * math.sqrt(3) / 2, L / 2, n - 1)
 
 size = 1000
 tk = Tk()
@@ -38,12 +32,13 @@ tk.resizable (False, False)
 tk.update()
 canvas.pack()
 
-degrees = 8
+degrees = 6
+
 x = size/4.0
 y = size/2.0
 L = (size * 3.0)/8.0
 
-createSierpinski(x, y, L, degrees)
+doSierpinski(x, y, L, degrees)
 
 canvas.mainloop()
 
